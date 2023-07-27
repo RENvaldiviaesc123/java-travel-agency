@@ -57,6 +57,18 @@ public class Vacanza {
         }
         this.departureDate = departureDate;
     }
+    public void setDepartureDate(String andataString)
+            throws IllegalArgumentException, RuntimeException {
+        LocalDate andataInput = null;
+        try {andataInput = LocalDate.parse(andataString); }
+        catch (Exception e) {
+            throw new IllegalArgumentException("Invalid date format!");
+        }
+        if (departureDate.isBefore(LocalDate.now())) {
+            throw new RuntimeException("La data di partenza deve essere dopo la data odierna!");
+        }
+        this.departureDate = andataInput;
+    }
 
     public LocalDate getEndDate() {
         return endDate;
@@ -68,6 +80,23 @@ public class Vacanza {
         }
         this.endDate = endDate;
     }
+    public void setEndDate(String ritornoString)
+        throws IllegalArgumentException, RuntimeException {
+        LocalDate ritornoInput = null;
+        try {ritornoInput = LocalDate.parse(ritornoString); }
+        catch (Exception e) {
+            throw new IllegalArgumentException("Invalid date format!");
+        }
+        if (endDate.isBefore(departureDate)) {
+            throw new RuntimeException("La data di ritorno deve essere dopo la data di partenza!");
+        }
+        this.endDate = ritornoInput;
+    }
+
+
+
+
+
 
     //METODI
         //metodo per calcolare la quantità di giorni della vacanza
@@ -76,4 +105,12 @@ public class Vacanza {
             return vacations.getYears();
         }
 
+    @Override
+    public String toString() {
+        return "Vacanza{" +
+                "destination='" + destination + '\'' +
+                ", departureDate=" + departureDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }
